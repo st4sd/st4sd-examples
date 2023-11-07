@@ -23,6 +23,7 @@ In the [notebooks](notebooks) folder you will find:
   - Illustrates the Datastore APIs used for more intricate querying and arbitrary information retrieval
 - [ST4SD Runtime API Property Retrieval](notebooks/ST4SD%20Runtime%20API%20Property%20Retrieval.ipynb)
    - Illustrates ways to retrieve properties measured by the experiments
+- [bite-size examples for using python wrappers to the ST4DS REST-APIs](notebooks/bites)
 
 ## Requirements
 

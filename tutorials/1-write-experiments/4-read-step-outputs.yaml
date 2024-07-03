@@ -1,0 +1,40 @@
+entrypoint:
+  entry-instance: many-steps
+  execute:
+  - target: <entry-instance>
+    args:
+      external: From entrypoint arguments
+
+workflows:
+- signature:
+    name: many-steps
+    parameters:
+    - name: external
+  steps:
+    first: writer
+    second: reader
+  execute:
+    - target: <first>
+      args:
+        message: "%(external)s"
+    - target: <second>
+      args:
+        file: "<first>/my_output.txt:ref"
+
+components:
+- signature:
+    name: writer
+    parameters:
+      - name: message
+      - name: output_file
+        default: my_output.txt
+  command:
+    executable: echo
+    arguments: "%(message)s > %(output_file)s"
+- signature:
+    name: reader
+    parameters:
+      - name: file
+  command:
+    executable: cat
+    arguments: "%(file)s"

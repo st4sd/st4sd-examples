@@ -1,0 +1,32 @@
+entrypoint:
+  entry-instance: many-steps
+  execute:
+  - target: <entry-instance>
+    args:
+      external: From entrypoint arguments
+
+workflows:
+- signature:
+    name: many-steps
+    parameters:
+    - name: external
+  steps:
+    first: hello
+    second: hello
+  execute:
+    - target: <first>
+      args:
+        message: "from my parent workflow: %(external)s"
+    - target: <second>
+      args:
+        message: "from my producer: <first>:output"
+
+
+components:
+- signature:
+    name: hello
+    parameters:
+      - name: message
+  command:
+    executable: echo
+    arguments: "%(message)s"

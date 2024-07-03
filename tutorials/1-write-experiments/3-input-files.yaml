@@ -1,0 +1,28 @@
+entrypoint:
+  entry-instance: wrapper
+  execute:
+  - target: <entry-instance>
+    args:
+      input.message: input/message
+
+workflows:
+- signature:
+    name: wrapper
+    parameters:
+      - name: input.message
+  
+  steps:
+    printer: printer
+  execute:
+    - target: <printer>
+      args:
+        file: "%(input.message)s:ref"
+
+components:
+- signature:
+    name: printer
+    parameters:
+      - name: file
+  command:
+    executable: cat
+    arguments: "%(file)s"

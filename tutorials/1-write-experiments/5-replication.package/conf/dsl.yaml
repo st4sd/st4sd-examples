@@ -1,0 +1,62 @@
+entrypoint:
+  entry-instance: product-of-sums
+  execute:
+    - target: <entry-instance>
+      args:
+        N: 3
+workflows:
+- signature:
+    name: product-of-sums
+    parameters:
+      - name: N
+        default: 1
+  steps:
+    generate-random-pairs: generate-random-pairs
+    sum: sum
+    calculate-product: calculate-product
+  execute:
+    - target: <generate-random-pairs>
+      args:
+        number_pairs: "%(N)s"
+    - target: <sum>
+      args:
+        file: <generate-random-pairs>/pair.yaml:ref
+    - target: <calculate-product>
+      args:
+        numbers: <sum>:output
+
+components:
+- signature:
+    name: generate-random-pairs
+    parameters:
+      - name: number_pairs
+      - name: output_file
+        default: pair.yaml
+      - name: random_seed
+        default: 42
+      - name: value_min
+        default: 1
+      - name: value_max
+        default: 10
+  workflowAttributes:
+    replicate: "%(number_pairs)s"
+  command:
+    executable: bin/generate_input.py
+    arguments: "%(random_seed)s %(value_min)s %(value_max)s %(output_file)s"
+
+- signature:
+    name: sum
+    parameters:
+      - name: file
+  command:
+    executable: bin/sum.py
+    arguments: "%(file)s %(replica)s"
+- signature:
+    name: calculate-product
+    parameters:
+      - name: numbers
+  workflowAttributes:
+    aggregate: true
+  command:
+    executable: bin/product.py
+    arguments: "%(numbers)s"

@@ -1,0 +1,15 @@
+entrypoint:
+  entry-instance: hello
+  execute:
+  - target: <entry-instance>
+    args:
+      message: Hello world
+
+components:
+- signature:
+    name: hello
+    parameters:
+      - name: message
+  command:
+    executable: echo
+    arguments: "%(message)s"

@@ -11,15 +11,15 @@ workflows:
     parameters:
     - name: external
   steps:
-    first: hello
-    second: hello
+    foo: hello
+    bar: hello
   execute:
-    - target: <first>
+    - target: <foo>
       args:
         message: "from my parent workflow: %(external)s"
-    - target: <second>
+    - target: <bar>
       args:
-        message: "from my producer: <first>:output"
+        message: "from my producer: <foo>:output"
 
 
 components:

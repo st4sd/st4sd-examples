@@ -11,15 +11,15 @@ workflows:
     parameters:
     - name: external
   steps:
-    first: writer
-    second: reader
+    foo: writer
+    bar: reader
   execute:
-    - target: <first>
+    - target: <foo>
       args:
         message: "%(external)s"
-    - target: <second>
+    - target: <bar>
       args:
-        file: "<first>/my_output.txt:ref"
+        file: "<foo>/my_output.txt:ref"
 
 components:
 - signature:

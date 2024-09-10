@@ -1,0 +1,78 @@
+entrypoint:
+  interface:
+    description: Counts vowels in words
+    inputSpec:
+      namingScheme: words
+      inputExtractionMethod:
+        csvColumn:
+          source:
+            path: input/words.csv
+          args:
+            column: word
+    propertiesSpec:
+    - name: Vowels
+      propertyExtractionMethod:
+        csvDataFrame:
+          source:
+            keyOutput: vowels
+          args:
+            renameColumns:
+              word: input-id
+            usecols:
+            - word
+            - vowels
+    - name: Letters
+      propertyExtractionMethod:
+        csvDataFrame:
+          source:
+            keyOutput: letters
+          args:
+            renameColumns:
+              word: input-id
+            usecols:
+            - word
+            - letters
+  output:
+    - name: vowels
+      data-in: <entry-instance/count-vowels>/vowels.csv:ref
+    - name: letters
+      data-in: <entry-instance/count-letters>/letters.csv:ref
+
+  entry-instance: main
+  execute:
+    - target: <entry-instance>
+      args:
+        words_file: input/words.csv:ref
+
+workflows:
+  - signature:
+      name: main
+      parameters:
+        - name: words_file
+    steps:
+      count-vowels: count-vowels
+      count-letters: count-letters
+    execute:
+      - target: <count-vowels>
+        args:
+          words: "%(words_file)s"
+      - target: <count-letters>
+        args:
+          words: "%(words_file)s"
+
+components:
+- signature:
+    name: count-vowels
+    parameters:
+    - name: words
+  command:
+    executable: bin/count_vowels.py
+    arguments: "%(words)s"
+
+- signature:
+    name: count-letters
+    parameters:
+      - name: words
+  command:
+    executable: bin/count_letters.py
+    arguments: "%(words)s"

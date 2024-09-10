@@ -7,6 +7,7 @@ entrypoint:
   output:
     - name: greeting
       data-in: <entry-instance>:output
+      description: just a friendly greeting
 
 components:
 - signature:

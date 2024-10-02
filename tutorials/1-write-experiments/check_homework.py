@@ -2,22 +2,6 @@
 
 """
 Here is a script you can use to check your "homework" for the group of tutorials in `1-write-experiments`
-
-Implement a workflow which:
-
-1. Has the name: “calculate-sum-of-products”
-2. Has 3 arguments:
-    - “input.numbers.json”: input file pointing to a JSON file containing an array. Each value of the array is an
-        array of integers.
-    - index_start: A positive integer
-    - length: A positive integer
-3. The workflow should use “replicate” to produce 1 JSON file per sub-array of “input.numbers.json” for each of
-    the arrays whose index falls within [index_start, index_start + length)
-4. The workflow should use multiple step to calculate the product of the numbers. Each step should consume one of
-    the arrays and stores the array's product under a file called “product.json”.
-5. The workflow should use “aggregate” for a step called “sum_products” which calculates the sum the products that
-    the above component replicas produced. “sum-products” should store the sum of the products under the file
-    “sum_of_products.json”
 """
 
 import json

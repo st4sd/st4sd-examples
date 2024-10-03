@@ -1,0 +1,28 @@
+entrypoint:
+  entry-instance: hello
+  execute:
+  - target: <entry-instance>
+    args:
+      message: Hello world
+
+components:
+- signature:
+    name: hello
+    parameters:
+      - name: message
+      - name: backend-kind
+        default: local
+      - name: lsf-queue-name
+        default: normal
+  command:
+    executable: echo
+    arguments: "%(message)s"
+  resourceManager:
+    config:
+      backend: "%(backend-kind)s"
+    kubernetes:
+      image: quay.io/st4sd/community-applications/rdkit-st4sd
+    docker:
+      image: quay.io/st4sd/community-applications/rdkit-st4sd
+    lsf:
+      queue: "%(lsf-queue-name)s"

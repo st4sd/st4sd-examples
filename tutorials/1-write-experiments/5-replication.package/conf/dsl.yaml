@@ -23,7 +23,7 @@ workflows:
         file: <generate-random-pairs>/pair.yaml:ref
     - target: <calculate-product>
       args:
-        numbers: <sum>:output
+        numbers: <sum>/sum:output
 
 components:
 - signature:
